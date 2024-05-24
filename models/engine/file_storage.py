@@ -2,10 +2,14 @@
 import json
 from os.path import exists
 from models.base_model import BaseModel
+from models.state import State
+from models.job import Job
 
 
 classes = {
-        'BaseModel': BaseModel
+        'BaseModel': BaseModel,
+        'Job': Job,
+        'State': State
     }
 
 
@@ -14,9 +18,19 @@ class FileStorage():
     __file_path = ''
     __objects = dict()
 
-    def all(self):
+    def all(self, cls=None):
         '''return the dictionary __objects'''
-        return self.__objects
+        if cls is None:
+            return self.__objects
+        else:
+            try:
+                sel_objs = []
+                for k, v in self.__objects.items():
+                    if v.__class__.__name__ == cls or v.__class__ == cls:
+                        sel_objs.append(v)
+                return sel_objs
+            except Exception:
+                pass
 
     def new(self, obj):
         """
