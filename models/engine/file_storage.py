@@ -21,7 +21,7 @@ class FileStorage():
     def all(self, cls=None):
         '''return the dictionary __objects'''
         if cls is None:
-            return self.__objects
+            return [v for k, v in self.__objects.items()]
         else:
             try:
                 sel_objs = []
