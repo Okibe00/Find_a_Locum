@@ -73,3 +73,12 @@ class FileStorage():
                 pass
         else:
             pass
+
+    def delete(self, id=None):
+        '''delete an obj from storage'''
+        if self.__objects.get(id, 0):
+            del self.__objects[id]
+            self.save()
+            return 1
+        else:
+            return 0
