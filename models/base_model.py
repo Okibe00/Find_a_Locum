@@ -22,6 +22,11 @@ class BaseModel():
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+        '''generate id is not passed'''
+        if self.__dict__.get('id', 0):
+            pass
+        else:
+            self.id = str(uuid4())
         models.storage.new(self)
 
     def __str__(self):
