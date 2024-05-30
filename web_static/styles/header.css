@@ -1,0 +1,14 @@
+
+nav div {
+	display: inline;
+	padding: 0px 10px;
+	font-size: larger;
+}
+.home_icon {
+	height: 50px;
+	width: 50px;
+}
+
+header {
+	border-bottom: 1px solid #ddd;
+}
