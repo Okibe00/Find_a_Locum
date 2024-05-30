@@ -1,0 +1,79 @@
+{
+    "State.cd56bdb2-9984-4d33-b715-8a6941e5f219": {
+        "id": "cd56bdb2-9984-4d33-b715-8a6941e5f219",
+        "created_at": "2024-05-27T23:57:11.119066",
+        "updated_at": "2024-05-27T23:57:11.119394",
+        "name": "Benue",
+        "__class__": "State"
+    },
+    "City.afb9a625-f542-406b-8f2b-a475c3da4ced": {
+        "id": "afb9a625-f542-406b-8f2b-a475c3da4ced",
+        "created_at": "2024-05-27T23:57:57.694197",
+        "updated_at": "2024-05-27T23:57:57.694493",
+        "name": "Otukpo",
+        "state_id": "cd56bdb2-9984-4d33-b715-8a6941e5f219",
+        "__class__": "City"
+    },
+    "City.efb9a625-f542-406b-8f2b-a475c3da4ced": {
+        "id": "efb9a625-f542-406b-8f2b-a475c3da4ced",
+        "created_at": "2024-05-27T23:57:57.694197",
+        "updated_at": "2024-05-27T23:57:57.694493",
+        "state_id": "cd56bdb2-9984-4d33-b715-8a6941e5f219",
+        "name": "Gboko",
+        "__class__": "City"
+    },
+    "City.rfb9a625-f542-406b-8f2b-a475c3da4ced": {
+        "id": "rfb9a625-f542-406b-8f2b-a475c3da4ced",
+        "created_at": "2024-05-27T23:57:57.694197",
+        "updated_at": "2024-05-27T23:57:57.694493",
+        "state_id": "cd56bdb2-9984-4d33-b715-8a6941e5f219",
+        "name": "Alade",
+        "__class__": "City"
+    },
+    "City.21c95aaf-cca6-4a7e-a4e8-5cdfcb498c38": {
+        "id": "21c95aaf-cca6-4a7e-a4e8-5cdfcb498c38",
+        "created_at": "2024-05-27T23:58:27.172121",
+        "updated_at": "2024-05-27T23:58:27.172319",
+        "name": "Makurdi",
+        "state_id": "cd56bdb2-9984-4d33-b715-8a6941e5f219",
+        "__class__": "City"
+    },
+    "State.3f501910-3b56-4be1-8f2d-e76004f787f2": {
+        "id": "3f501910-3b56-4be1-8f2d-e76004f787f2",
+        "created_at": "2024-05-27T23:58:44.704608",
+        "updated_at": "2024-05-27T23:58:44.704801",
+        "name": "Plateau",
+        "__class__": "State"
+    },
+    "City.3f079d46-dd8c-45d0-806d-164ab4385169": {
+        "id": "3f079d46-dd8c-45d0-806d-164ab4385169",
+        "created_at": "2024-05-27T23:59:28.255320",
+        "updated_at": "2024-05-27T23:59:28.255532",
+        "name": "Jos",
+        "state_id": "3f501910-3b56-4be1-8f2d-e76004f787f2",
+        "__class__": "City"
+    },
+    "State.492b6ffe-0f82-43d2-aa11-fd87de672e21": {
+        "id": "492b6ffe-0f82-43d2-aa11-fd87de672e21",
+        "created_at": "2024-05-27T23:59:51.743216",
+        "updated_at": "2024-05-27T23:59:51.743446",
+        "name": "Lagos",
+        "__class__": "State"
+    },
+    "City.6c397992-4eae-4e54-88b5-d70bfae2aa5a": {
+        "id": "6c397992-4eae-4e54-88b5-d70bfae2aa5a",
+        "created_at": "2024-05-28T00:00:06.957813",
+        "updated_at": "2024-05-28T00:00:06.958016",
+        "state_id": "492b6ffe-0f82-43d2-aa11-fd87de672e21",
+        "name": "Lagos",
+        "__class__": "City"
+    },
+    "State.9a1aca07-43d9-47bb-97c8-eac34043c660": {
+        "id": "9a1aca07-43d9-47bb-97c8-eac34043c660",
+        "created_at": "2024-05-29T18:02:48.795429",
+        "updated_at": "2024-05-29T18:02:48.795833",
+        "name": "Ibadan",
+        "author": "onmeje",
+        "__class__": "State"
+    }
+}
