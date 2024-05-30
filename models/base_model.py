@@ -27,6 +27,11 @@ class BaseModel():
             pass
         else:
             self.id = str(uuid4())
+        '''generated updated and created date and time'''
+        if self.__dict__.get('updated_at', 0) == 0:
+            self.updated_at = datetime.now()
+        if self.__dict__.get('created_at', 0) == 0:
+            self.created_at = datetime.now()
         models.storage.new(self)
 
     def __str__(self):
