@@ -4,12 +4,14 @@ from os.path import exists
 from models.base_model import BaseModel
 from models.state import State
 from models.job import Job
+from models.city import City
 
 
 classes = {
         'BaseModel': BaseModel,
         'Job': Job,
-        'State': State
+        'State': State,
+        'City': City
     }
 
 
@@ -75,10 +77,42 @@ class FileStorage():
             pass
 
     def delete(self, id=None):
-        '''delete an obj from storage'''
-        if self.__objects.get(id, 0):
-            del self.__objects[id]
-            self.save()
-            return 1
+        '''
+        delete an obj from storagea
+        NB: i assume id is supplied in the form class.id
+        '''
+        for obj in self.__objects.values():
+            if obj.id == id:
+                cls = obj.__class__.__name__
+                del self.__objects[f'{cls}.{id}']
+                self.save()
+                return 1
+        return 0
+
+    def search(self, id, cls=None):
+        '''
+        Finds object with passed id
+        '''
+        if cls and id:
+            if type(cls) == str:
+                key = f"{cls}.{id}"
+            else:
+                key = f'{cls.__name__}.{id}'
+            if self.__objects.get(key, 0):
+                return self.__objects[key]
+        elif id:
+            for obj in self.__objects:
+                if obj.id == id:
+                    return obj
+        return None
+
+    def count(self, cls=None):
+        '''count number of cls in storage'''
+        if cls:
+            return len(self.all(cls))
         else:
-            return 0
+            return len(self.all())
+
+    def close(self):
+        '''reloads database session'''
+        self.reload()
