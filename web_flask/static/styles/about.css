@@ -1,0 +1,14 @@
+.perks {
+	font-size: 18px;
+	font-family: Arial, Helvetica, sans-serif;
+	width: 1000px;
+	margin: auto;
+}
+
+.perks li, p {
+	font-size: 25px;
+	margin-bottom: 5px;
+}
+.perks h1, h3 {
+	text-align:center;
+}
