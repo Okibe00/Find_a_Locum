@@ -4,13 +4,15 @@ import cmd
 from models.base_model import BaseModel
 from models.state import State
 from models.job import Job
+from models.city import City
 from models import storage
 
 
 classes = {
     'BaseModel': BaseModel,
     'Job': Job,
-    'State': State
+    'State': State,
+    'City': City
 }
 
 
@@ -27,6 +29,17 @@ class Shell(cmd.Cmd):
             args = line.split(" ")
             command = args[0]
             new_obj = classes[command]()
+            for i in range(1, len(args)):
+                try:
+                    arg = args[i].split("=")
+                    val = eval(arg[1])
+                    if type(val) == str:
+                        val = val.replace("_", " ")
+                    key = arg[0]
+                    setattr(new_obj, key, val)
+                except Exception:
+                    continue
+            print(new_obj)
             new_obj.save()
             print(new_obj.id)
         else:
@@ -137,9 +150,9 @@ class Shell(cmd.Cmd):
 
     def do_quit(self, line):
         '''Gracefully termination of program'''
-        return self.do_EOF()
+        return self.do_EOF("")
 
-    def do_EOF(self):
+    def do_EOF(self, arg):
         '''handle the end of character'''
         return True
 
