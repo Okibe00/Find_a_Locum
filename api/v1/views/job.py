@@ -6,6 +6,26 @@ from models.job import Job
 from flask import abort
 
 
+@app_views.route('/job_search', methods=['POST'])
+def filter_jobs():
+    """
+    Request is going to come with a list json dict of filter criteria
+    {prof: [prof_ids]}
+    based on this ids you are to return jobs with stated profession id
+    """
+    try:
+        post = request.get_json()
+        prof_ids = post["prof_id"]
+        fil_list = list()
+        '''should refactor to use a list comprehension'''
+        for obj in storage.all(Job):
+            if obj.prof_id in prof_ids:
+                fil_list.append(obj.to_dict())
+        return fil_list
+    except Exception:
+        abort(400, description="Not a valid JSON")
+
+
 @app_views.route('/jobs', methods=['GET'])
 def list_jobs():
     '''list all jobs in storage'''
