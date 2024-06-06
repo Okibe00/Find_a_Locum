@@ -5,13 +5,15 @@ from models.base_model import BaseModel
 from models.state import State
 from models.job import Job
 from models.city import City
+from models.profession import Profession
 
 
 classes = {
         'BaseModel': BaseModel,
         'Job': Job,
         'State': State,
-        'City': City
+        'City': City,
+        'Profession': Profession
     }
 
 

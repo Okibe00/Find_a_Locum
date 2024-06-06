@@ -6,13 +6,14 @@ from models.state import State
 from models.job import Job
 from models.city import City
 from models import storage
-
+from models.profession import Profession
 
 classes = {
     'BaseModel': BaseModel,
     'Job': Job,
     'State': State,
-    'City': City
+    'City': City,
+    'Profession': Profession
 }
 
 
@@ -150,9 +151,9 @@ class Shell(cmd.Cmd):
 
     def do_quit(self, line):
         '''Gracefully termination of program'''
-        return self.do_EOF("")
+        return self.do_EOF(line)
 
-    def do_EOF(self, arg):
+    def do_EOF(self, line):
         '''handle the end of character'''
         return True
 
