@@ -1,13 +1,14 @@
 body {
-	padding: 20px;
+	margin:0;
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
-header {
+.abt_header {
 	width: 1000px;
 	margin: auto;
 	text-align: center;
+	border-bottom: none;
 }
-header h2 {
+.abt_header h2 {
 	margin-top: -10px;
 }
 .desc {
@@ -40,10 +41,10 @@ button {
 
 .card_about p {
 	font-size: 18px;
-	/* margin: 2px; */
 }
 .card_about a {
 	padding: 20px;
+	font-size: 20px;
 
 }
 
@@ -51,3 +52,8 @@ button {
 	display: flex;
 	justify-content: space-around;
 }
+
+.banner {
+	width: 100%;
+}
+

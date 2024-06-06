@@ -1,4 +1,3 @@
-
 nav div {
 	display: inline;
 	padding: 0px 10px;
@@ -11,4 +10,8 @@ nav div {
 
 header {
 	border-bottom: 1px solid #ddd;
+}
+a {
+	text-decoration: none;
+	color: black;
 }
