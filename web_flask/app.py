@@ -2,6 +2,9 @@ from flask import Flask
 from flask import render_template
 from models import storage
 from models.state import State
+from models.profession import Profession
+import uuid
+
 
 app = Flask(__name__)
 
@@ -18,6 +21,12 @@ def _reload(t):
 def about():
     '''display the about page'''
     return render_template('about.html')
+
+
+@app.route("/contact")
+def contact():
+    '''display the about page'''
+    return render_template('contact.html')
 
 
 @app.route("/state")
@@ -43,7 +52,10 @@ def find_state(id):
 def home_page():
     '''display home page'''
     states = storage.all(State)
-    return render_template("home.html", states=states)
+    prof = storage.all(Profession)
+    return render_template(
+                "home.html", states=states, profs=prof, uuid=uuid.uuid4
+            )
 
 
 if __name__ == "__main__":
