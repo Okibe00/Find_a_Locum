@@ -2,11 +2,13 @@
 from api.v1.views import app_views
 from flask import Flask
 from os import getenv
+from flask_cors import CORS
 
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 app.register_blueprint(app_views)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 
 @app.route('/')
@@ -23,5 +25,5 @@ def _404(e):
 
 if __name__ == '__main__':
     host = getenv('FAL_API_HOST', '0.0.0.0')
-    port = getenv('FAL_API_PORT', '5000')
+    port = getenv('FAL_API_PORT', '5001')
     app.run(host=host, port=port, threaded=True, debug=True)
