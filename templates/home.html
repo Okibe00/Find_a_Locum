@@ -1,0 +1,88 @@
+<!Doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="{{ url_for('static', filename='styles/footer.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='styles/header.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='styles/global.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='styles/card.css') }}">
+		<link rel="stylesheet" href="{{url_for('static', filename='styles/filter.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='styles/dropdown.css') }}">
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+		<script src=" {{ url_for('static', filename='scripts/filter.js') }}?{{uuid()}}"></script>
+
+		<title>Find_a_Locum</title>
+	</head>
+	<body>
+		<header>
+			<nav>
+				<img src="{{ url_for('static', filename='image/icons8-search-64.png') }}" alt="search icon" class="home_icon">
+				<a href="http://127.0.0.1:5000/home/"><div class="home">Home</div></a>
+				<a href="http://127.0.0.1:5000/about/"><div class="about">About</div></a>
+				<a href="http://127.0.0.1:5000/contact/"><div class="contact">Contact</div></a>
+			</nav>
+		</header>
+		<div class="filter_container">
+			<section class="filters">
+				<div class="field">
+					<h3>Profession</h3>
+					<h4 class="prof_input_box">Pharmacist, Nurses, Doctors</h4>
+					<ul class="popover prof">
+						{% for prof in profs %}
+						<li prof_id="{{ prof.id }}" prof_name="{{ prof.name }}"><input type="checkbox">{{ prof.name }}</li>
+						{% endfor %}
+					</ul>
+				</div>
+
+				<div class="location">
+					<h3>State</h3>
+					<h4>Lagos, Abuja</h4>
+					<ul class="popover state">
+						{% for state in states|sort(attribute="name")%}
+							<h2>{{state.name}}</h2>
+							{% for city in state.cities|sort(attribute="name") %}
+								<ul>
+									<li>{{ city.name }}</li>
+								</ul>
+							{% endfor %}
+						{% endfor %}
+					</ul>
+				</div>
+				<button class="btn">Search</button>
+			</section>
+		</div>
+		<div class="container">
+			<main class="main">
+				<div class="jb_wrapper">
+					<div class="jb_sum_wrapper">
+
+					</div>
+					<div class="jb_detailed_wrapper">
+						<div class="card full_descrp">
+							<h3 class="title">Locum pharmacist</h3>
+							<p class="description">The locum pharmacist will be responsible for dispensing and counselling patients on proper use of medications, screen patient medications for potential drug interactions and documentation of activities.</p>
+							<p class="hourly_rate">Hourly rate: #1000</p>
+							<p class="state">State: Lagos</p>
+							<p class="city">City: Lagos</p>
+							<p class="ontact">Contact: +234 254125 1523</p>
+							<p class="Name_of_premise">Name of Premise: ABC pharmacy</p>
+							<p class="address">Address: 125, macurly way</p>
+							<p class="shift">Shift: 2pm - 4pm</p>
+							<p class="Status">Status: Open</p>
+							<p class="Start_date">Start Date: 27/05/2024</p>
+							<p class="End_date">End Date: 29/05/2024</p>
+							<p class="Number_of_hours_per_shift">Number of hours per shift: 3</p>
+						</div>
+					</div>
+				</div>
+			</main>
+		</div>
+				<footer>
+			<p>&copy;Okibe Onmeje</p>
+			Icons by <a target="_blank" href="https://icons8.com">icons.com</a>
+			 <p>
+			</p>
+		</footer>
+	</body>
+</html>
