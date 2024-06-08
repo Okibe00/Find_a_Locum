@@ -92,7 +92,6 @@ let full_description = function(data) {
 let success = function(data) {
 	$(".jb_sum_wrapper").html("")
 	let first_card = data[0]["id"] + "0"
-	console.log(first_card)
 	for (let i = 0; i < data.length; i++) {
 		let item = data[i]
 		let d_id = item["id"] + `${i}`
@@ -199,7 +198,6 @@ $(document).ready(function() {
 			type: 'GET',
 			datatype: 'json',
 			success: function(data) {
-				console.log(data);
 				success(data)
 			},
 			error: function(xhr, status, error) {
