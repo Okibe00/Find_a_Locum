@@ -1,4 +1,4 @@
-from api.v1.views import app_views
+from . import api
 from models import storage
 from flask import request
 from models import storage
@@ -6,7 +6,7 @@ from models.job import Job
 from flask import abort
 
 
-@app_views.route('/job_search', methods=['POST'])
+@api.route('/job_search', methods=['POST'])
 def filter_jobs():
     """
     Request is going to come with a list json dict of filter criteria
@@ -26,7 +26,7 @@ def filter_jobs():
         abort(400, description="Not a valid JSON")
 
 
-@app_views.route('/jobs', methods=['GET'])
+@api.route('/jobs', methods=['GET'])
 def list_jobs():
     '''list all jobs in storage'''
     jobs_list = storage.all(Job)
@@ -37,7 +37,7 @@ def list_jobs():
     return jobs_dict
 
 
-@app_views.route('/jobs/<job_id>', methods=['GET', 'DELETE'])
+@api.route('/jobs/<job_id>', methods=['GET', 'DELETE'])
 def find_job(job_id):
     '''retrieve a job object'''
     job = storage.search(job_id, Job)
@@ -51,7 +51,7 @@ def find_job(job_id):
     abort(404)
 
 
-@app_views.route('/jobs', methods=['POST'])
+@api.route('/jobs', methods=['POST'])
 def _post():
     '''returns the new state with status code 201'''
     try:
