@@ -1,46 +1,160 @@
 //filter result by profession
+let full_description = function(data) {
+	let val = null
+	let job_id = $(this).attr("id")
+	for (let i = 0; i < data.length; i++) {
+		let item = data[i]
+		if (item['id'] + `${i}` == job_id) {
+			$(".full_descrp").empty().append(
+				$('<h3>',
+					 {
+						"class": "title",
+						text: `${item["title"]}`
+					}
+				),
+				$(
+					"<p>",
+					{"class": "description",
+						text: `${item["description"]}`
+					}
+				),
+				$(
+					"<p>",
+					{
+						"class": "hourly_rate",
+						text: `Hourly rate: ${item["hourly_rate"]}`
+					}
+				),
+				$("<p>",
+					{
+						"class": "State",
+						text: `State: ${item["State"]}`
+					}
+				),
+				$("<p>",
+					{
+						"class": "Contact",
+						text: `Contact: ${item["Contact"]}`
+					}
+				),
+				$(
+					"<p>",
+					{
+						"class": "Name_of_premise",
+						text: `Name of premise: ${item["Name_of_premise"]}`
+					}
+				),
+				$(
+					"<p>",
+					{
+						"class": "Address",
+						text: `Address: ${item["Address"]}`
+					}
+				),
+				$(
+					"<p>",
+					{
+						"class": "Shift",
+						text: `Shift: ${item["Shift"]}`
+					}
+				),
+				$(
+					"<p>",
+					{
+						"class": "Status",
+						text: `Status: ${item["Status"]}`
+					}
+				),
+				$(
+					"<p>",
+					{
+						"class": "Start_date",
+						text: `Start date: ${item["Start_date"]}`
+					}
+				),
+				$(
+					"<p>",{
+						"class": "End_date",
+						text: `End date: ${item["End_date"]}`
+					}
+				),
+				$(
+					"<p>",
+					{
+						"class": "Number_of_hours_Per_shift",
+						text: `Number of hours per shift: ${item["Number_of_hours_Per_shift"]}`
+					}
+				),
+			)
+		}
+	}
+}
 let success = function(data) {
 	$(".jb_sum_wrapper").html("")
+	let first_card = data[0]["id"] + "0"
+	console.log(first_card)
 	for (let i = 0; i < data.length; i++) {
 		let item = data[i]
 		let d_id = item["id"] + `${i}`
-		let $val = $("<div>", {"class": "card sum_card", id: d_id})
+		let $val = $(
+				"<div>",
+				{
+					"class": "card sum_card",
+					id: d_id,
+					click: function (event) {
+					full_description.call(this, data)
+					}
+				}
+			)
+
 		$(".jb_sum_wrapper").append($val)
 
 		$(`div#${d_id}`).append(
-			`<h3 class="title">${item["title"]}</h3>`,
-			`<p class="Status">Status: ${item["Status"]}</p>`,
-			`<p class="Start_date">Start Date: ${item["Start_date"]}</p>`,
-			`<p class="End_date">End Date: ${item["End_date"]}</p>`,
-			`<p class="Number_hours_per_shift">Number of hours per shift: ${item["Number_of_hours_Per_shift"]}</p>`,
-			`<p class="hourly_rate">Hourly rate: ${item["hourly_rate"]}</p>`
-		)
-			$(`div#${d_id}`).click(function() {
-				console.log($(this).attr("id"))
-				let val = null
-				let job_id = $(this).attr("id")
-				for (let i = 0; i < data.length; i++) {
-					let item = data[i]
-					if (item['id'] + `${i}` == job_id) {
-						console.log("found")
-						console.log(item)
-						val = `<h3 class="title">${item["title"]}</h3>
-						<p class="description">${item["description"]}</p>
-						<p class="hourly_rate">Hourly rate: ${item["hourly_rate"]}</p>
-						<p class="state">State: ${item["State"]}</p>
-						<p class="Contact">Contact: ${item["Contact"]}</p>
-						<p class="Name_of_premise">Name of Premise: ${item["Name_of_premise"]}</p>
-						<p class="Address">Address: ${item["Address"]}</p>
-						<p class="Shift">Shift: ${item["Shift"]}</p>
-						<p class="Status">Status: ${item["Status"]}</p>
-						<p class="Start_date">Start date: ${item["Start_date"]}</p>
-						<p class="End_date">End date: ${item["End_date"]}</p>
-						<p class="Number_of_hours_Per_shift">Number of hours per shift: ${item["Number_of_hours_Per_shift"]}</p>`
-						$(".full_descrp").html(val)
+			$(
+				"<h3>",
+				{
+					"class": "title",
+					text: `${item["title"]}`,
 					}
+				),
+			$(
+				"<p>",
+				 {
+					"class": "Status",
+					text: `Status: ${item["Status"]}`,
 				}
-			})
+			),
+			$(
+				"<p>",
+				{
+					"class": "Start_date",
+					text: `Start Date: ${item["Start_date"]}`
+				}
+			),
+			$(
+				"<p>",
+				{
+					"class": "End_date_date",
+					text: `End Date: ${item["End_date"]}`
+				}
+			),
+			$(
+				"<p>",
+				{
+					"class": "Number_hours_per_shift",
+					text: `Number of hours per shift: ${item["Number_of_hours_Per_shift"]}`
+				}
+			),
+			$(
+				"<p>",
+				{
+					"class": "hourly_rate",
+					text: `Hourly rate: ${item["hourly_rate"]}`
+				}
+			)
+		)
 	}
+	$(`#${first_card}`).trigger('click')
 }
 
 $(document).ready(function() {
@@ -85,6 +199,7 @@ $(document).ready(function() {
 			type: 'GET',
 			datatype: 'json',
 			success: function(data) {
+				console.log(data);
 				success(data)
 			},
 			error: function(xhr, status, error) {
