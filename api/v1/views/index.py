@@ -1,14 +1,14 @@
-from api.v1.views import app_views
+from . import api
 from models import storage
 
 
-@app_views.route('/status')
+@api.route('/status')
 def _status():
     '''return api status'''
     return {'status': 'Ok'}
 
 
-@app_views.route('/stats')
+@api.route('/stats')
 def _count():
     '''retrieve the number of objects in storage'''
     all_objs = storage.all()

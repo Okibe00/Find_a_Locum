@@ -1,5 +1,5 @@
 '''Creates an api server interface'''
-from api.v1.views import app_views
+from .views import api
 from flask import Flask
 from os import getenv
 from flask_cors import CORS
@@ -7,7 +7,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
-app.register_blueprint(app_views)
+app.register_blueprint(api)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 
