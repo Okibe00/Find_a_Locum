@@ -2,7 +2,8 @@
 
 # Introduction
 At Find a Locum, we make it easy for healthcare providers and employers to connect and find locum opportunities quickly and efficiently. Our platform is designed to streamline the process of finding temporary medical staff, ensuring that healthcare facilities are never short-staffed and providers find the positions that suit their skills and preferences.
-visit [Find a locum today](http://100.26.232.191:5000/home/)
+visit [Find a locum today](http://100.26.232.191:5000/home/)\
+visit our [blogpost](https://medium.com/@okibeogomola/building-my-first-full-stack-application-d3179fb4f9a4) 
 ## For Healthcare Providers:
 **Browse Opportunities:** Access a comprehensive list of locum positions in various specialties and locations.\
 **Flexible Work:** Choose assignments that fit your schedule, from short-term to long-term positions.\
