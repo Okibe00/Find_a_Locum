@@ -1,3 +1,5 @@
+![home_find_a_locum](https://github.com/Okibe00/Find_a_Locum/assets/78906040/1c48ea61-f0af-4f3b-a8bb-6a80cddd9d87)
+
 # Introduction
 At Find a Locum, we make it easy for healthcare providers and employers to connect and find locum opportunities quickly and efficiently. Our platform is designed to streamline the process of finding temporary medical staff, ensuring that healthcare facilities are never short-staffed and providers find the positions that suit their skills and preferences.
 visit [Find a locum today](http://100.26.232.191:5000/home/)
