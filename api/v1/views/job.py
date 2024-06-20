@@ -3,6 +3,7 @@ from models import storage
 from flask import request
 from models import storage
 from models.job import Job
+from models.profession import Profession
 from flask import abort
 
 
@@ -13,18 +14,21 @@ def filter_jobs():
     {prof: [prof_ids]}
     based on this ids you are to return jobs with stated profession id
     """
-    try:
-        post = request.get_json()
-        prof_ids = post["prof_id"]
-        fil_list = list()
-        '''should refactor to use a list comprehension'''
-        for obj in storage.all(Job):
-            if obj.prof_id in prof_ids:
-                fil_list.append(obj.to_dict())
-        return fil_list
-    except Exception:
-        abort(400, description="Not a valid JSON")
-
+    '''
+    # implement some error handling
+        # Case: request.get_json fails
+        # Case: storage.all(fails)
+        # Case: An empty request is passed
+    '''
+    post = request.get_json()
+    prof_ids = post.get("prof_id")
+    fil_list = list()
+    '''should refactor to use a list comprehension'''
+    jb_list = storage.all(Job)
+    for obj in jb_list:
+        if obj.prof_id in prof_ids:
+            fil_list.append(obj.to_dict())
+    return fil_list
 
 @api.route('/jobs', methods=['GET'])
 def list_jobs():
@@ -51,16 +55,28 @@ def find_job(job_id):
     abort(404)
 
 
-@api.route('/jobs', methods=['POST'])
+@api.route('/post_job', methods=['POST'])
 def _post():
     '''returns the new state with status code 201'''
     try:
-        post = request.get_json()
+        post = dict(request.form)
+        start_time = post.get("start_t")
+        end_time = post.get("end_t")
+        prof_list = storage.all(Profession)
+        for prof in prof_list:
+            if prof.name == post.get("prof"):
+                print("before")
+                #post.update({"prof_id": prof['id']})
+                post["prof_id"] = prof.id
+                print("after")
+        '''profession doesen't exist'''
+        if post.get("prof_id", 0) == 0:
+            new_prof = Profession(name=post.get("prof"))
+            post['prof_id'] = new_prof.id
+            new_prof.save()
+        post['Shift'] = f"{start_time} - {end_time}"
+        new_job = Job(**post)
+        new_job.save()
+        return new_job.to_dict()
     except Exception:
         abort(400, description="Not a valid Json")
-
-    if post.get('title', 0):
-        new_job = Job(**post)
-        return new_job.to_dict()
-    else:
-        abort(400, description='Missing Job title')
