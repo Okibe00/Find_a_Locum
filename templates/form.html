@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../static/styles/form.css">
+	<link rel="stylesheet" href="{{ url_for('static', filename='styles/header.css') }}">
+	<script src="../static/scripts/form.js"></script>
+	<title>Find a locum</title>
+</head>
+<body>
+	<header>
+		<nav>
+			<img src="../static/image/icons8-search-64.png" alt="search icon" class="home_icon">
+			<a href="http://127.0.0.1:5000/home/"><div class="home">Home</div></a>
+			<a href="http://127.0.0.1:5000/about/"><div class="about">About</div></a>
+			<a href="http://127.0.0.1:5000/contact/"><div class="c">Contact</div></a>
+		</nav>
+	</header>
+	<form id="job_post">
+		<section>
+		<label for="title">Title:</label>
+		<input type="text" id="title" name="title" required>
+		</section>
+		<section>
+			<label for="desc">Job description:</label>
+			<textarea name="description" id="desc" cols="50" rows="5" required></textarea>
+		</section>
+		<section class="profession">
+			<label for="profession">Profession</label>
+			<select name="prof" id="profession">
+				<option value="Pharmacist">Pharmacist</option>
+				<option value="Doctor">Doctor</option>
+				<option value="Nurse">Nurse</option>
+				<option value="Physiotherapist">Physiotherapist</option>
+			</select>
+		</section>
+		<section>
+			<label for="rate">Hourly rate:</label>
+			<input type="number" id="rate" name="hourly_rate" min="500" step="100" required>
+		</section>
+		<section>
+			<label for="contact">Phone:</label>
+			<input
+			 		type="tel"
+					id="contact"
+					name="Contact" autocomplete="on"
+					pattern="^(\+234|0)[1-9]{1}([0-9]{3}){3}" placeholder="Mobile or country code prefixed(+234...)" required>
+		</section>
+		<section>
+			<label for="company">Name of premise:</label>
+			<input type="text" id="company" name="Name_of_premise" autocomplete="on" required>
+		</section>
+		<section>
+			<label for="addr">Address:</label>
+			<input type="text" id="addr" name="Address" autocomplete="on" required>
+		</section>
+		<section>
+			<label> Shift Time:
+			<input type="time" id="start_t" name="start_t" autocomplete="on"> - <input type="time" id="end_t" name="end_t" autocomplete="on" required>
+			</label>
+		</section>
+		<section>
+			<label for="status">Status:</label>
+			<input id="status" type="text" name="Status" autocomplete="on" placeholder="Open or Closed" required>
+		</section>
+		<section>
+			<label for="s_date">State date:</label>
+			<input type="date" id="s_date" name="Start_date" autocomplete="on" min="2024-06-17" max="2024-12-05" required>
+		</section>
+		<section>
+			<label for="e_date">End date:</label>
+			<input type="date" id="e_date" name="End_date" autocomplete="on" min="2024-06-17" max="2024-12-05" required>
+		</section>
+		<section>
+			<label for="num_hr_shft">Shift length:</label>
+			<input type="number" id="num_hr_shft" name="Number_of_hours_Per_shift" autocomplete="on" min="1" required>
+		</section>
+		<section>
+			<label for="state">
+				State:
+			</label>
+			<input type="text" id="state" name="State" required>
+		</section>
+		<section>
+			<button
+				type="submit"
+				value="submit"
+				id="submit_btn"
+				>
+				Submit
+			</button>
+		</section>
+	</form>
+</body>
+</html>
