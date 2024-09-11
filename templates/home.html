@@ -18,9 +18,10 @@
 		<header>
 			<nav>
 				<img src="{{ url_for('static', filename='image/icons8-search-64.png') }}" alt="search icon" class="home_icon">
-				<a href="http://127.0.0.1:5000/home/"><div class="home">Home</div></a>
-				<a href="http://127.0.0.1:5000/about/"><div class="about">About</div></a>
-				<a href="http://127.0.0.1:5000/contact/"><div class="contact">Contact</div></a>
+				<a href="http://127.0.0.1:5000/home/?{{uuid()}}"><div class="home">Home</div></a>
+				<a href="http://127.0.0.1:5000/about/?{{uuid()}}"><div class="about">About</div></a>
+				<a href="http://127.0.0.1:5000/contact/?{{uuid()}}"><div class="contact">Contact</div></a>
+				<a href="http://127.0.0.1:5000/form/?{{uuid()}}"><div>Post job</div></a>
 			</nav>
 		</header>
 		<div class="filter_container">
