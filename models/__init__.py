@@ -6,10 +6,10 @@ from os import getenv
 storage_type = getenv("STORAGE_ENGINE")
 if storage_type == 'db':
     storage = DB_storage(
-        host=getenv("HOST"),
-        user=getenv("USER"),
-        password=getenv("PASSWORD"),
-        db=getenv("DB")
+        #host=getenv("HOST"),
+        #user=getenv("USER"),
+        #password=getenv("PASSWORD"),
+        #db=getenv("DB")
     )
 else:
     storage = FileStorage()

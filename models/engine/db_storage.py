@@ -28,6 +28,11 @@ Author:
 Date:
 2024-06-23
 '''
+
+"""
+TODO:
+    01: Merge the new and save functions
+"""
 from models.base_model import BaseModel
 import mysql.connector
 from mysql.connector import errorcode
@@ -74,6 +79,7 @@ class DB_storage(BaseModel):
         Return:
             None
         '''
+        print(getenv("PASSWORD") or password)
         config = {
             'password': getenv("PASSWORD") or password,
             'host': getenv("HOST") or host,
