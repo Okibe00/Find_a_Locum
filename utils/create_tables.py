@@ -86,7 +86,8 @@ TABLES['jobs'] = (
     FOREIGN KEY (user_id) REFERENCES user(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    INDEX idx_jobs_state_city_user (state_id, city_id, profession_id, user_id)
+    INDEX idx_jobs_state_city_user (state_id, city_id, profession_id, user_id),
+    INDEX idx_title (title)
     ) ENGINE=InnoDB
     '''
 )
