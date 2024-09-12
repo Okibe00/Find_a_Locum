@@ -16,6 +16,10 @@ def _reload(t):
     '''reload db'''
     storage.close()
 
+@app.route("/form")
+def _form():
+    '''display job form'''
+    return render_template("form.html")
 
 @app.route("/about")
 def about():
