@@ -2,7 +2,7 @@
 from uuid import uuid4
 from datetime import datetime
 import models
-
+from os import getenv
 
 class BaseModel():
     '''defines all common attributes and methods'''
@@ -32,7 +32,9 @@ class BaseModel():
             self.updated_at = datetime.now()
         if self.__dict__.get('created_at', 0) == 0:
             self.created_at = datetime.now()
-        models.storage.new(self)
+        '''if storage is db skip'''
+        if getenv('DB') == 'fs':
+            models.storage.new(self)
 
     def __str__(self):
         '''print the string representation of an obj'''
