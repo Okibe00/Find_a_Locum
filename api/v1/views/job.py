@@ -24,31 +24,27 @@ def filter_jobs():
     prof_ids = post.get("prof_id")
     fil_list = list()
     '''should refactor to use a list comprehension'''
-    jb_list = storage.all(Job)
+    jb_list = storage.all('Job')
     for obj in jb_list:
         if obj.prof_id in prof_ids:
-            fil_list.append(obj.to_dict())
+            fil_list.append(obj)
     return fil_list
 
 @api.route('/jobs', methods=['GET'])
 def list_jobs():
     '''list all jobs in storage'''
-    jobs_list = storage.all(Job)
-    jobs_dict = list()
-    for job in jobs_list:
-        jobs_dict.append(job.to_dict())
-
-    return jobs_dict
+    res = storage.all('Job')
+    return res
 
 
 @api.route('/jobs/<job_id>', methods=['GET', 'DELETE'])
 def find_job(job_id):
     '''retrieve a job object'''
-    job = storage.search(job_id, Job)
+    job = storage.get('Job', o_id=job_id)
     if job:
         if request.method == 'GET':
             if job:
-                return job.to_dict()
+                return job
         elif request.method == 'DELETE':
             if storage.delete(job_id):
                 return {'status': 200}
@@ -57,26 +53,7 @@ def find_job(job_id):
 
 @api.route('/post_job', methods=['POST'])
 def _post():
-    '''returns the new state with status code 201'''
-    try:
-        post = dict(request.form)
-        start_time = post.get("start_t")
-        end_time = post.get("end_t")
-        prof_list = storage.all(Profession)
-        for prof in prof_list:
-            if prof.name == post.get("prof"):
-                print("before")
-                #post.update({"prof_id": prof['id']})
-                post["prof_id"] = prof.id
-                print("after")
-        '''profession doesen't exist'''
-        if post.get("prof_id", 0) == 0:
-            new_prof = Profession(name=post.get("prof"))
-            post['prof_id'] = new_prof.id
-            new_prof.save()
-        post['Shift'] = f"{start_time} - {end_time}"
-        new_job = Job(**post)
-        new_job.save()
-        return new_job.to_dict()
-    except Exception:
-        abort(400, description="Not a valid Json")
+    '''Add a job to storage
+    
+    '''
+    pass
