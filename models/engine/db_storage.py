@@ -1,3 +1,16 @@
+from models.base_model import BaseModel
+import mysql.connector
+from mysql.connector import errorcode
+from mysql.connector import Error
+from utils.create_tables import TABLES
+from models.profession import Profession
+from models.state import State
+from models.city import City
+from models.user import User
+from models.job import Job
+from mysql.connector import pooling
+from os import getenv
+
 '''A database engine
 Name:
    db_storage.py
@@ -31,26 +44,26 @@ Date:
 
 """
 TODO:
-    01: Merge the new and save functions
+    01: Merge the new and save functions (done)
+    02: 
 """
-from models.base_model import BaseModel
-import mysql.connector
-from mysql.connector import errorcode
-from mysql.connector import Error
-from utils.create_tables import TABLES
-from models.profession import Profession
-from models.state import State
-from models.city import City
-from mysql.connector import pooling
-from os import getenv
 
 
 classes = {
     'State': State,
     'Profession': Profession,
-    'city': City,
+    'City': City,
+    'Job': Job,
+    'User': User
 }
 
+DB_TABLES = {
+    'State': 'states',
+    'Profession': 'profession',
+    'User': 'users',
+    'City': 'cities',
+    'Job': 'jobs'
+}
 
 class DB_storage(BaseModel):
     '''creates a database engine
@@ -63,7 +76,6 @@ class DB_storage(BaseModel):
         __session (dict): current session objects
 
     '''
-    __session = {}
     __cnx = None
 
     def __init__(self, host=None, user=None,
@@ -79,18 +91,16 @@ class DB_storage(BaseModel):
         Return:
             None
         '''
-        print(getenv("PASSWORD") or password)
         config = {
-            'password': getenv("PASSWORD") or password,
-            'host': getenv("HOST") or host,
-            'user': getenv("USER") or user,
-            'db': getenv("DB") or db,
-            'port': getenv("PORT") or port,
+            'password': getenv("PASSWORD"),
+            'host': getenv("HOST"),
+            'user': getenv("USER"),
+            'db': getenv("DB"),
+            'port': getenv("PORT"),
         }
         try:
             if None in config.values():
                 config = {k: v for k, v in config.items() if v is not None}
-
             self.__cnx = pooling.MySQLConnectionPool(
                 pool_name="pool01",
                 pool_size=32,
@@ -98,7 +108,6 @@ class DB_storage(BaseModel):
             )
             if self.is_connected():
                 print('connection successful')
-
         except Error as err:
             if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
                 print("Bad username or password")
@@ -107,7 +116,49 @@ class DB_storage(BaseModel):
             else:
                 print(err)
 
-    def get(self, cls, obj_id=None):
+    def delete(self, cls,  o_id):
+        '''Delete a record
+        Argument:
+            o_id: record id
+            cls: table
+        Return: 1(succes) or 0(error)
+        
+        '''
+        table = DB_TABLES[cls]
+        query = f'DELETE FROM {cls} WHERE id = %s'
+        conn = self.__cnx.get_connection()
+        cursor = conn.cursor()
+        try:
+            cursor.execute(query, (o_id,))
+        except Error as err:
+            print(err)
+        finally:
+            cursor.close()
+            conn.close()
+        return 1
+
+    def all(self, cls):
+        '''get all record of a class
+        Attribute:
+            cls(str): class to fetch
+        Return:
+            list of dictionary or None
+        '''
+        if classes.get(cls) is None:
+            print("** class does not exist **")
+            return
+        try:
+            conn = self.__cnx.get_connection()
+            cursor = conn.cursor(dictionary=True)
+            table = DB_TABLES[cls]
+            query = f"SELECT * FROM {table};"
+            cursor.execute(query)
+            return cursor.fetchall()
+        except Error as err:
+            print('Failed to get connection')
+            print(err)
+
+    def get(self, cls, name=None, o_id=None):
         '''
         fetch records from the database and convert them
         back into Python objects or dictionaries
@@ -130,24 +181,28 @@ class DB_storage(BaseModel):
                 return
 
         cursor = conn.cursor(dictionary=True)
+        table = DB_TABLES[cls]
         if cls in classes:
             try:
-                if obj_id:
-                    query = f"SELECT * FROM {cls.lower()} WHERE id=%s;"
-                    cursor.execute(query, (obj_id,))
+                if name:
+                    query = f"SELECT * FROM {table} WHERE name=%s;"
+                    cursor.execute(query, (name,))
                     data = cursor.fetchall()
                     if len(data):
-                        data[0]['__class__'] = cls
-                        result = result + data
+                        #data[0]['__class__'] = cls
+                        #result = result + data
+                        pass
                     else:
-                        print("** ID does not exist **")
-                else:
-                    query = f"SELECT * FROM {cls.lower()};"
-                    cursor.execute(query)
+                        print("** name does not exist **")
+                elif o_id:
+                    query = f"SELECT * FROM {table} WHERE id=%s;"
+                    cursor.execute(query, (o_id,))
                     data = cursor.fetchall()
-                    for obj in data:
-                        obj['___class__'] = cls
-                    result = result + data
+                    if len(data) == 0:
+                        print("** Invalid ID **")
+                    #for obj in data:
+                    #    obj['___class__'] = cls
+                    #result = result + data
             except Error as err:
                 print(err)
                 cursor.close()
@@ -157,7 +212,11 @@ class DB_storage(BaseModel):
                 conn.close()
         else:
             print("** class does not exist **")
-        return result
+
+        for obj in data:
+            obj['___class__'] = cls
+        #result = result + data
+        return data
 
     def reload(self):
         '''creates database tables'''
@@ -167,27 +226,17 @@ class DB_storage(BaseModel):
             self.create_table(key, TABLES[key])
         print("Tables created")
 
-    def new(self, obj):
-        '''adds a created object to the current session a session
-        format: {
-                    obj.id: obj
-                }
-        '''
-        class_name = obj.__class__.__name__
-        self.__session[f'{class_name}.{obj.id}'] = obj
-
-    def save(self):
+    def save(self, obj):
         '''saves session objs to the database'''
-        for v in self.__session.values():
-            data = v.to_dict()
-            table_name = data['__class__'].lower()
-            del data['__class__']
-            columns = ', '.join(data.keys())
-            values = tuple(data.values())
-            plholder = ', '.join(['%s'] * len(values))
-            query = f'INSERT INTO {table_name} ({columns}) VALUES({plholder});'
-            self.execute(query, values)
-            self.__session = {}
+        data = obj.to_dict()
+        table_name = DB_TABLES[f"{data['__class__']}"]
+        del data['__class__']
+        columns = ', '.join(data.keys())
+        values = tuple(data.values())
+        plholder = ', '.join(['%s'] * len(values))
+        query = f'INSERT INTO {table_name} ({columns}) VALUES({plholder});'
+        print(query)
+        self.execute(query, values)
 
     def create_table(self, table_name=None, query=None):
         '''
@@ -197,6 +246,7 @@ class DB_storage(BaseModel):
         conn = self.__cnx.get_connection()
         cursor = conn.cursor()
         try:
+            '''check if database exist if it doesnt create it and use it'''
             print(f'Creating: {table_name}')
             cursor.execute(query)
             print(f'{table_name} created')
@@ -218,6 +268,7 @@ class DB_storage(BaseModel):
         try:
             cursor.execute(query, (name,))
         except Error as err:
+            print(err)
             cursor.close()
             conn.close()
 
