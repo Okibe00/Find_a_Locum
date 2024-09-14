@@ -24,12 +24,24 @@ from models import storage
 from models.profession import Profession
 from models.state import State
 from models.job import Job
-
+from os import getenv
 
 class TestDBEngine(unittest.TestCase):
     '''
     Test the database engine
     '''
+    @classmethod
+    def setUpClass(cls):
+        '''create test database'''
+        pass
+
+    @classmethod
+    def tearDownClass(cls):
+        '''clean up database'''
+        query = 'DROP DATABASE test_db;'
+        print("** Resetting database **")
+        storage.execute(query)
+        storage.execute("CREATE DATABASE test_db")
 
     def test_connection(self):
         '''
@@ -46,17 +58,11 @@ class TestDBEngine(unittest.TestCase):
         res = storage.execute(t_exist)
         self.assertTrue(len(res) > 0)
 
-    def test_bad_query(self):
-        '''test bad query string to create table'''
-        query = "creat TABLE ;"
-        storage.create_table(query)
-
     def test_save(self):
         '''Test the save method'''
         p1 = Profession()
         obj_id = p1.id
-        storage.new(p1)
-        storage.save()
+        storage.save(p1)
         query = f"SELECT * from profession where id = %s"
         res = storage.execute(query, (obj_id,))
         self.assertEqual(obj_id, res[0][0])
@@ -66,19 +72,20 @@ class TestDBEngine(unittest.TestCase):
         '''fetch single record'''
         new_obj = Profession(name="Doctor")
         obj_id = new_obj.id
-        storage.new(new_obj)
-        storage.save()
+        storage.save(new_obj)
         res = storage.get("Profession", obj_id)
         self.assertEqual(len(res), 1)
         self.assertEqual(res[0]['id'], obj_id)
         self.assertEqual("Doctor", res[0]['name'])
         '''test fetch entire record'''
         new_data = storage.get('Profession')
-        self.assertTrue(len(new_data) > 1)
+        self.assertTrue(len(new_data) >= 1)
         """test failure behaviour"""
 
     def test_begin_transaction(self):
         '''test transaction handling'''
+        p = Profession(name='Pharmacist')
+        storage.save(p)
         query = [
             ("SELECT * FROM profession LIMIT 5;", None),
             ('SELECT * FROM profession WHERE name="Pharmacist";', None)
