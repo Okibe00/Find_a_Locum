@@ -46,13 +46,18 @@ TABLES['city'] = (
 
 TABLES['user'] = (
     '''
-    CREATE TABLE IF NOT EXISTS user (
+    CREATE TABLE IF NOT EXISTS users (
     id VARCHAR(100) PRIMARY KEY,
     name VARCHAR(255),
     gender VARCHAR(10),
     age VARCHAR(10),
-    profession VARCHAR(50),
-    type VARCHAR(50)
+    created_at VARCHAR(60),
+    updated_at VARCHAR(60),
+    profession_id VARCHAR(100),
+    FOREIGN KEY (profession_id) REFERENCES profession(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    INDEX idx_user (id)
     ) ENGINE=InnoDB
     '''
 )
@@ -62,6 +67,7 @@ TABLES['jobs'] = (
     CREATE TABLE IF NOT EXISTS jobs (
     id VARCHAR(100) PRIMARY KEY,
     address VARCHAR(100),
+    premise_name VARCHAR(255),
     state_id VARCHAR(100),
     city_id VARCHAR(100),
     profession_id VARCHAR(100),
@@ -83,12 +89,11 @@ TABLES['jobs'] = (
     FOREIGN KEY (profession_id) REFERENCES profession(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES user(id)
+    FOREIGN KEY (user_id) REFERENCES users(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     INDEX idx_jobs_state_city_user (state_id, city_id, profession_id, user_id),
-    INDEX idx_title (title)
+    INDEX idx_title (title(255))
     ) ENGINE=InnoDB
     '''
 )
-
