@@ -1,0 +1,69 @@
+from models.city import City
+from models.state import State
+from models.profession import Profession
+from models.user import User
+from models.job import Job
+from models import storage
+
+'''Populates database with test data
+'''
+'''creating state obj'''
+state_0 = State(name="Lagos")
+state_0_id  = state_0.id
+state_1 = State(name="Plateau")
+state_1_id = state_1.id
+'''create profession objs'''
+pharmacist = {
+    "name": "Pharmacist"
+}
+prof_0 = Profession(**pharmacist)
+'''creating user obj'''
+okibe = {
+    "name": "Okibe Onmeje",
+    "profession_id": f"{prof_0.id}"
+}
+
+marvins = {
+    "name": "Marvins Ogaraku",
+    "profession_id": f"{prof_0.id}"
+}
+
+user0 = User(**okibe)
+user1 = User(**marvins)
+user0_id = user0.id
+user1_id = user1.id
+
+'''creating city'''
+lagos = {
+    "name": "Lagos",
+    "state_id": f"{state_0.id}"
+}
+jos = {
+    "name": "Jos",
+    "state_id": f"{state_1.id}"
+}
+city_0 = City(**lagos)
+city_1 = City(**jos)
+city_0_id = city_0.id
+city_1_id = city_1.id
+
+'''creating jobs'''
+f_job = {
+    "title": "Locum pharmacist",
+    "address": "14 Yaya Abatan road ogba ikeja Lagos Nigeria",
+    "state_id": f"{state_0.id}",
+    "city_id": f"{city_0.id}",
+    "profession_id": f"{prof_0.id}",
+    "user_id": f"{user0_id}",
+    "hourly_rate": "1000",
+    "status": "Open",
+    "shift": f"2:00pm - 4:00pm",
+    "premise_name": "Pharmabay limited",
+    "description": "Provide pharmaceutical services for  patients",
+    'hours_per_shift': "3"
+}
+job_0 = Job(**f_job)
+
+objs = [state_0, state_1, city_0, city_1, prof_0, user0, user1, job_0]
+#for obj in objs:
+storage.save(job_0)
